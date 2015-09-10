@@ -10,8 +10,10 @@ export default React.createClass({
     if (e.which === ENTER_KEY) {
       const node = findDOMNode(this.refs.input);
       const text = node.value.trim();
-      this.props.onNewTodo(text);
-      node.value = '';
+      if (text.length > 0) {
+        this.props.onNewTodo(text);
+        node.value = '';
+      }
     }
   },
   render: function render() {

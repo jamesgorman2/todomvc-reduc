@@ -24,7 +24,10 @@ export default React.createClass({
     this.setState({editText: e.target.value});
   },
   handleSubmit: function handleSubmit() {
-    this.props.onUpdateTodo(this.props.index, this.state.editText);
+    const text = this.state.editText.trim();
+    if (text.length > 0) {
+      this.props.onUpdateTodo(this.props.index, text);
+    }
   },
   handleKeyDown: function handleKeyDown(e) {
     if (e.which === ESCAPE_KEY) {
