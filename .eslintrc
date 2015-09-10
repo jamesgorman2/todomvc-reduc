@@ -16,7 +16,9 @@
     "no-var": 0,
     "vars-on-top": 0,
 
-    "comma-dangle": 1
+    "comma-dangle": 1,
+
+    "no-console": 0
   },
   "plugins": [
     "react"

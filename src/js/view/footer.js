@@ -12,8 +12,8 @@ export default React.createClass({
     todos: PropTypes.arrayOf(PropTypes.shape({
       text: PropTypes.string.isRequired,
       completed: PropTypes.bool.isRequired,
+      openForEdit: PropTypes.bool.isRequired,
     }).isRequired).isRequired,
-    onCompleteAllClick: PropTypes.func.isRequired,
     showAll: PropTypes.func.isRequired,
     showActive: PropTypes.func.isRequired,
     showCompleted: PropTypes.func.isRequired,
@@ -32,17 +32,17 @@ export default React.createClass({
           </span>
           <ul className="filters">
             <li>
-              <a href="#"
+              <a href="#/"
                  className={this.props.filter === Filters.ALL ? 'selected' : ''}
                  onClick={(e) => handleAnchor(e, this.props.showAll)}>All</a>
             </li>
             <li>
-              <a href="#"
+              <a href="#/active"
                  className={this.props.filter === Filters.ACTIVE ? 'selected' : ''}
                  onClick={(e) => handleAnchor(e, this.props.showActive)}>Active</a>
             </li>
             <li>
-              <a href="#"
+              <a href="#/completed"
                  className={this.props.filter === Filters.COMPLETED ? 'selected' : ''}
                  onClick={(e) => handleAnchor(e, this.props.showCompleted)}>Completed</a>
             </li>

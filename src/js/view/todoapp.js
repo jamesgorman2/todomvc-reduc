@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { addTodo, toggleComplete, deleteTodo, toggleCompleteAll, clearCompleted, showAll, showActive, showCompleted } from '../store/actions.js';
+import { addTodo, toggleComplete, deleteTodo, toggleCompleteAll, clearCompleted, showAll, showActive, showCompleted, openForEdit, updateTodo, cancelEdit } from '../store/actions.js';
 import Header from './header';
 import Main from './main';
 import Footer from './footer';
@@ -23,7 +23,10 @@ const TodoApp = React.createClass({
               filter={filter}
               onCompletedClick={(index) => dispatch(toggleComplete(index))}
               onDestroyClick={(index) => dispatch(deleteTodo(index))}
-              onCompleteToggle={() => dispatch(toggleCompleteAll())} />
+              onCompleteToggle={() => dispatch(toggleCompleteAll())}
+              onEditClick={(index) => dispatch(openForEdit(index))}
+              onUpdateTodo={(index, text) => dispatch(updateTodo(index, text))}
+              onCancelEdit={(index) => dispatch(cancelEdit(index))} />
         <Footer todos={todos}
                 filter={filter}
                 onClearCompletedClick={() => dispatch(clearCompleted())}

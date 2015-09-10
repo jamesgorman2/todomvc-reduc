@@ -5,6 +5,9 @@ export const Actions = {
   DELETE_TODO: 'DELETE_TODO',
   CLEAR_COMPLETED: 'CLEAR_COMPLETED',
   TOGGLE_COMPLETE_ALL: 'TOGGLE_COMPLETE_ALL',
+  OPEN_FOR_EDIT: 'OPEN_FOR_EDIT',
+  CANCEL_EDIT: 'CANCEL_EDIT',
+  UPDATE_TODO: 'UPDATE_TODO',
   SHOW_ALL: 'SHOW_ALL',
   SHOW_ACTIVE: 'SHOW_ACTIVE',
   SHOW_COMPLETED: 'SHOW_COMPLETED',
@@ -40,6 +43,28 @@ export function toggleCompleteAll() {
 export function clearCompleted() {
   return {
     type: Actions.CLEAR_COMPLETED,
+  };
+}
+
+export function openForEdit(index) {
+  return {
+    type: Actions.OPEN_FOR_EDIT,
+    index: index,
+  };
+}
+
+export function cancelEdit(index) {
+  return {
+    type: Actions.CANCEL_EDIT,
+    index: index,
+  };
+}
+
+export function updateTodo(index, text) {
+  return {
+    type: Actions.UPDATE_TODO,
+    index: index,
+    text: text,
   };
 }
 

@@ -1,10 +1,11 @@
 import { Actions } from './actions.js';
 import Filters from './filters.js';
 
-function newTodo(text, completed = false) {
+function newTodo(text, completed = false, openForEdit = false) {
   return {
     text: text,
     completed: completed,
+    openForEdit: openForEdit,
   };
 }
 
@@ -44,6 +45,33 @@ function todos(state, action) {
       return state.map((todo) => newTodo(todo.text, false));
     }
     return state.map((todo) => newTodo(todo.text, true));
+  case Actions.OPEN_FOR_EDIT:
+    {
+      const todo = state[action.index];
+      return [
+        ...state.slice(0, action.index),
+        newTodo(todo.text, todo.completed, true),
+        ...state.slice(action.index + 1),
+      ];
+    }
+  case Actions.CANCEL_EDIT:
+    {
+      const todo = state[action.index];
+      return [
+        ...state.slice(0, action.index),
+        newTodo(todo.text, todo.completed, false),
+        ...state.slice(action.index + 1),
+      ];
+    }
+  case Actions.UPDATE_TODO:
+    {
+      const todo = state[action.index];
+      return [
+        ...state.slice(0, action.index),
+        newTodo(action.text, todo.completed, false),
+        ...state.slice(action.index + 1),
+      ];
+    }
   default:
     return state;
   }

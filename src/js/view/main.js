@@ -18,9 +18,13 @@ export default React.createClass({
     onCompleteToggle: PropTypes.func.isRequired,
     onCompletedClick: PropTypes.func.isRequired,
     onDestroyClick: PropTypes.func.isRequired,
+    onEditClick: PropTypes.func.isRequired,
+    onUpdateTodo: PropTypes.func.isRequired,
+    onCancelEdit: PropTypes.func.isRequired,
     todos: PropTypes.arrayOf(PropTypes.shape({
       text: PropTypes.string.isRequired,
       completed: PropTypes.bool.isRequired,
+      openForEdit: PropTypes.bool.isRequired,
     }).isRequired).isRequired,
     filter: PropTypes.string.isRequired,
   },
@@ -38,6 +42,9 @@ export default React.createClass({
           <label htmlFor="toggle-all">Mark all as complete</label>
           <TodoList onCompletedClick={this.props.onCompletedClick}
                     onDestroyClick={this.props.onDestroyClick}
+                    onEditClick={this.props.onEditClick}
+                    onUpdateTodo={this.props.onUpdateTodo}
+                    onCancelEdit={this.props.onCancelEdit}
                     todos={todos} />
         </section>
       );
