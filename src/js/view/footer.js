@@ -10,9 +10,7 @@ export default React.createClass({
   propTypes: {
     onClearCompletedClick: PropTypes.func.isRequired,
     todos: PropTypes.arrayOf(PropTypes.shape({
-      text: PropTypes.string.isRequired,
       completed: PropTypes.bool.isRequired,
-      openForEdit: PropTypes.bool.isRequired,
     }).isRequired).isRequired,
     showAll: PropTypes.func.isRequired,
     showActive: PropTypes.func.isRequired,

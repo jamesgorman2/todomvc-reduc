@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { addTodo, toggleComplete, deleteTodo, toggleCompleteAll, clearCompleted, showAll, showActive, showCompleted, openForEdit, updateTodo, cancelEdit } from '../store/actions.js';
+import { addTodo, toggleComplete, deleteTodo, toggleCompleteAll, clearCompleted, showAll, showActive, showCompleted, updateTodo } from '../store/actions.js';
 import Header from './header';
 import Main from './main';
 import Footer from './footer';
+import Filters from '../store/filters.js';
 
 const TodoApp = React.createClass({
   propTypes: {
@@ -20,13 +21,15 @@ const TodoApp = React.createClass({
       <section className="todoapp">
         <Header onNewTodo={(text) => dispatch(addTodo(text))} />
         <Main todos={todos}
-              filter={filter}
+              filter={(completed) =>
+                filter === Filters.ALL ||
+                (filter === Filters.ACTIVE && !completed) ||
+                (filter === Filters.COMPLETED && completed)
+              }
               onCompletedClick={(index) => dispatch(toggleComplete(index))}
               onDestroyClick={(index) => dispatch(deleteTodo(index))}
               onCompleteToggle={() => dispatch(toggleCompleteAll())}
-              onEditClick={(index) => dispatch(openForEdit(index))}
-              onUpdateTodo={(index, text) => dispatch(updateTodo(index, text))}
-              onCancelEdit={(index) => dispatch(cancelEdit(index))} />
+              onUpdateTodo={(index, text) => dispatch(updateTodo(index, text))} />
         <Footer todos={todos}
                 filter={filter}
                 onClearCompletedClick={() => dispatch(clearCompleted())}
