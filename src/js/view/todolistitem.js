@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
-import EditBox from './editbox.js';
+
+const ESCAPE_KEY = 27;
+const ENTER_KEY = 13;
 
 export default React.createClass({
   propTypes: {
@@ -13,24 +15,50 @@ export default React.createClass({
   getInitialState: function getInitialState() {
     return {
       editing: false,
+      editText: this.props.text,
     };
+  },
+  componentDidMount: function componentDidMount() {
+    this.focusOnEdit();
+  },
+  componentDidUpdate: function componentDidUpdate() {
+    this.focusOnEdit();
+  },
+  focusOnEdit: function focusOnEdit() {
+    const field = React.findDOMNode(this.refs.edit);
+    if (field !== null) {
+      field.focus();
+      field.setSelectionRange(field.value.length, field.value.length);
+    }
   },
   handleDoubleClick: function handleDoubleClick() {
     this.setState({editing: true});
   },
-  handleUpdate: function handleUpdate(index, text) {
-    this.props.onUpdateTodo(index, text);
-    this.setState(this.getInitialState);
+  handleEdit: function handleEdit(e) {
+    this.setState({editText: e.target.value});
   },
-  handleCancel: function handleCancel() {
-    this.setState(this.getInitialState);
+  handleSubmit: function handleSubmit() {
+    const text = this.state.editText.trim();
+    if (text.length > 0) {
+      this.props.onUpdateTodo(this.props.index, text);
+      this.setState(this.getInitialState);
+    }
+  },
+  handleKeyDown: function handleKeyDown(e) {
+    if (e.which === ESCAPE_KEY) {
+      this.setState(this.getInitialState());
+    } else if (e.which === ENTER_KEY) {
+      this.handleSubmit();
+    }
   },
   render: function render() {
     const edit = (
-      <EditBox onUpdateTodo={this.handleUpdate}
-               onCancel={this.handleCancel}
-               index={this.props.index}
-               text={this.props.text}/>
+      <input ref="edit"
+             className="edit"
+             value={this.state.editText}
+             onChange={this.handleEdit}
+             onBlur={this.handleSubmit}
+             onKeyDown={this.handleKeyDown}/>
     );
     return (
       <li className={(this.props.completed ? 'completed' : '') + (this.state.editing ? ' editing' : '')}>
