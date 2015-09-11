@@ -40,8 +40,10 @@ export default React.createClass({
   handleSubmit: function handleSubmit() {
     const text = this.state.editText.trim();
     if (text.length > 0) {
-      this.props.onUpdateTodo(this.props.index, text);
-      this.setState(this.getInitialState);
+      if (text !== this.props.text) {
+        this.props.onUpdateTodo(this.props.index, text);
+      }
+      this.setState({editing: false});
     }
   },
   handleKeyDown: function handleKeyDown(e) {
@@ -52,14 +54,6 @@ export default React.createClass({
     }
   },
   render: function render() {
-    const edit = (
-      <input ref="edit"
-             className="edit"
-             value={this.state.editText}
-             onChange={this.handleEdit}
-             onBlur={this.handleSubmit}
-             onKeyDown={this.handleKeyDown}/>
-    );
     return (
       <li className={(this.props.completed ? 'completed' : '') + (this.state.editing ? ' editing' : '')}>
         <div className="view" ref="view">
@@ -72,7 +66,12 @@ export default React.createClass({
           </label>
           <button className="destroy" onClick={() => this.props.onDestroyClick(this.props.index)}></button>
         </div>
-        { this.state.editing ? edit : null }
+        <input ref="edit"
+               className="edit"
+               value={this.state.editText}
+               onChange={this.handleEdit}
+               onBlur={this.handleSubmit}
+               onKeyDown={this.handleKeyDown}/>
       </li>
     );
   },
