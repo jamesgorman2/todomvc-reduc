@@ -8,7 +8,15 @@ import Filters from '../store/filters.js';
 
 const TodoApp = React.createClass({
   propTypes: {
-    dispatch: PropTypes.func.isRequired,
+    onNewTodo: PropTypes.func.isRequired,
+    onCompletedClick: PropTypes.func.isRequired,
+    onDestroyClick: PropTypes.func.isRequired,
+    onCompleteToggle: PropTypes.func.isRequired,
+    onUpdateTodo: PropTypes.func.isRequired,
+    onClearCompletedClick: PropTypes.func.isRequired,
+    showAll: PropTypes.func.isRequired,
+    showActive: PropTypes.func.isRequired,
+    showCompleted: PropTypes.func.isRequired,
     todos: PropTypes.arrayOf(PropTypes.shape({
       text: PropTypes.string.isRequired,
       completed: PropTypes.bool.isRequired,
@@ -16,26 +24,26 @@ const TodoApp = React.createClass({
     filter: PropTypes.string.isRequired,
   },
   render: function render() {
-    const { dispatch, todos, filter } = this.props;
+    const { todos, filter } = this.props;
     return (
       <section className="todoapp">
-        <Header onNewTodo={(text) => dispatch(addTodo(text))} />
+        <Header onNewTodo={this.props.onNewTodo} />
         <Main todos={todos}
               filter={(completed) =>
                 filter === Filters.ALL ||
                 (filter === Filters.ACTIVE && !completed) ||
                 (filter === Filters.COMPLETED && completed)
               }
-              onCompletedClick={(index) => dispatch(toggleComplete(index))}
-              onDestroyClick={(index) => dispatch(deleteTodo(index))}
-              onCompleteToggle={() => dispatch(toggleCompleteAll())}
-              onUpdateTodo={(index, text) => dispatch(updateTodo(index, text))} />
+              onCompletedClick={this.props.onCompletedClick}
+              onDestroyClick={this.props.onDestroyClick}
+              onCompleteToggle={this.props.onCompleteToggle}
+              onUpdateTodo={this.props.onUpdateTodo} />
         <Footer todos={todos}
                 filter={filter}
-                onClearCompletedClick={() => dispatch(clearCompleted())}
-                showAll={() => dispatch(showAll())}
-                showActive={() => dispatch(showActive())}
-                showCompleted={() => dispatch(showCompleted())}/>
+                onClearCompletedClick={this.props.onClearCompletedClick}
+                showAll={this.props.showAll}
+                showActive={this.props.showActive}
+                showCompleted={this.props.showCompleted}/>
       </section>
     );
   },
@@ -47,5 +55,18 @@ function select(state) {
     filter: state.filter,
   };
 }
+function dispatchToProps(dispatch) {
+  return {
+    onNewTodo: (text) => dispatch(addTodo(text)),
+    onCompletedClick: (index) => dispatch(toggleComplete(index)),
+    onDestroyClick: (index) => dispatch(deleteTodo(index)),
+    onCompleteToggle: () => dispatch(toggleCompleteAll()),
+    onUpdateTodo: (index, text) => dispatch(updateTodo(index, text)),
+    onClearCompletedClick: () => dispatch(clearCompleted()),
+    showAll: () => dispatch(showAll()),
+    showActive: () => dispatch(showActive()),
+    showCompleted: () => dispatch(showCompleted()),
+  };
+}
 
-export default connect(select)(TodoApp);
+export default connect(select, dispatchToProps)(TodoApp);
