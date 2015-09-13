@@ -6,7 +6,7 @@ import Main from './main';
 import Footer from './footer';
 import Filters from '../store/filters.js';
 
-const TodoApp = React.createClass({
+export const TodoApp = React.createClass({
   propTypes: {
     onNewTodo: PropTypes.func.isRequired,
     onCompletedClick: PropTypes.func.isRequired,

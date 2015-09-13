@@ -1,3 +1,4 @@
+import { combineReducers } from 'redux';
 import { Actions } from './actions.js';
 import Filters from './filters.js';
 
@@ -19,7 +20,7 @@ const DEFAULT_STATE = {
 
 const DEFAULT_ACTION = { type: 'NOOP' };
 
-function todos(state, action) {
+function todos(state = DEFAULT_STATE.todos, action = DEFAULT_ACTION) {
   switch (action.type) {
   case Actions.ADD_TODO:
     return [...state, newTodo(action.text)];
@@ -58,7 +59,7 @@ function todos(state, action) {
   }
 }
 
-function filter(state, action) {
+function filter(state = DEFAULT_STATE.filter, action = DEFAULT_ACTION) {
   switch (action.type) {
   case Actions.SHOW_ALL:
     return Filters.ALL;
@@ -71,9 +72,7 @@ function filter(state, action) {
   }
 }
 
-export default function todoStore(state = DEFAULT_STATE, action = DEFAULT_ACTION) {
-  return {
-    todos: todos(state.todos, action),
-    filter: filter(state.filter, action),
-  };
-}
+export default combineReducers({
+  todos,
+  filter,
+});
